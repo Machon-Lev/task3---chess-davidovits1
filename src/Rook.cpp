@@ -26,10 +26,14 @@ std::vector<Location> allStepsRequired(Location sourch, Location destination) {
 		int maxCol = std::max(sourch.col, destination.col);
 		int minCol = std::min(sourch.col, destination.col);
 		
-		for (int i = minCol + 1; i <= maxCol; i++)
+		for (int i = minCol; i <= maxCol; i++)
 		{
-			Location l(sourch.row, i);
-			stepsRequired.push_back(l);
+			if (i != sourch.col)
+			{
+				Location l(sourch.row, i);
+				stepsRequired.push_back(l);
+			}
+
 		}
 	}
 	else if (sourch.col == destination.col)
@@ -37,10 +41,14 @@ std::vector<Location> allStepsRequired(Location sourch, Location destination) {
 		int maxRow = std::max(sourch.row, destination.row);
 		int minRow = std::min(sourch.row, destination.row);
 
-		for (int i = minRow + 1; i <= maxRow; i++)
+		for (int i = minRow; i <= maxRow; i++)
 		{
-			Location l(i, sourch.col);
-			stepsRequired.push_back(l);
+			if (i != sourch.row)
+			{
+				Location l(i, sourch.col);
+				stepsRequired.push_back(l);
+			}
+
 		}
 	}
 
