@@ -1,6 +1,7 @@
 #pragma once
 #include "Color.h"
 #include <vector>
+#include "Location.h"
 
 class Piece
 {
@@ -12,5 +13,6 @@ public:
 	Piece(Color c = white, char k = ' ');
 	virtual ~Piece() {};
 	
-	virtual std::vector<std::vector<bool>> legalMoovs(int pawnRow, int pawnCol) = 0;
+	virtual std::vector<std::vector<bool>> legalMoovs(const Location source) = 0;
+	virtual std::vector<Location> allStepsRequired(Location sourch, Location destination) = 0;
 };
