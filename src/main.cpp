@@ -10,8 +10,8 @@ int main()
 	Chess a(board);
 	int codeResponse = 0;
 	string res = a.getInput();
-	int row, col;
-	std::pair<int, int> firstStr, secondStr;
+	std::pair<Location, Location> location;
+	Location source, destination;
 	while (res != "exit")
 	{
 		/* 
@@ -29,16 +29,10 @@ int main()
 		*/
 
 		/**/ 
-		std::string firstTwoLetters = res.substr(0, 2);
-		std::string secondTwoLetters = res.substr(2, 4);
-		firstStr = inputAnalysis(firstTwoLetters);
-		row = firstStr.first;
-		col = firstStr.second;
-		Location source(row, col);
-		secondStr = inputAnalysis(secondTwoLetters);
-		row = secondStr.first;
-		col = secondStr.second;
-		Location destination(row, col);
+
+		location = inputAnalysis(res);
+		source = location.first;
+		destination = location.second;
 		{ // put your code here instead that code
 			cout << "code response >> ";
 			cin >> codeResponse;
