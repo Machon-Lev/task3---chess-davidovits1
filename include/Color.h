@@ -1,6 +1,6 @@
 #pragma once
 // color of pieces in chess
-enum Color
+enum class Color
 {
 	white, black
 };

@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Rook.h"
 #include <algorithm>
 
@@ -19,7 +18,7 @@ std::vector<std::vector<bool>> legalMoovs(const Location source) {
 	return board;
 }
 
-std::vector<Location> allStepsRequired(Location sourch, Location destination) {
+std::vector<Location> allStepsRequired(const Location sourch,const  Location destination) {
 	std::vector<Location> stepsRequired;
 	if (sourch.row == destination.row)
 	{

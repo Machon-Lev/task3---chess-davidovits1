@@ -2,4 +2,5 @@
 "Chess.cpp"
 "Piece.cpp"
 "Location.cpp"
-"Rook.cpp")
+"Rook.cpp"
+)
