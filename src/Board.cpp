@@ -16,3 +16,22 @@ Board::~Board() {
 		}
 	}
 }
+
+int Board::checkStepsAvailability(const std::vector<Location> locations, Location destination) {
+	int row, col;
+	for (int i = 0; i < locations.size() - 1; i++)
+	{
+		if (destination != locations[i])
+		{
+			row = locations[i].row;
+			col = locations[i].col;
+			if (board[row][col] != NULL)
+			{
+				return ILLEGAL_MOVE;
+			}
+		}
+
+	}
+	return LLEGAL_MOVE;
+
+}
