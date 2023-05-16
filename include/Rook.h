@@ -7,4 +7,5 @@ public:
 	~Rook() {};
 	std::vector<std::vector<bool>> legalMoovs(const Location source) override;
 	std::vector<Location> allStepsRequired(const Location sourch,const  Location destination) override;
+	bool isLegalMoov(Location source, Location destination) override;
 };
