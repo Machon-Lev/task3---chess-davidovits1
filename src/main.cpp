@@ -1,5 +1,7 @@
 // Chess 
 #include "Chess.h"
+#include "Tools.h"
+#include "Board.h"
 
 int main()
 {
@@ -8,6 +10,8 @@ int main()
 	Chess a(board);
 	int codeResponse = 0;
 	string res = a.getInput();
+	int row, col;
+	std::pair<int, int> firstStr, secondStr;
 	while (res != "exit")
 	{
 		/* 
@@ -25,6 +29,16 @@ int main()
 		*/
 
 		/**/ 
+		std::string firstTwoLetters = res.substr(0, 2);
+		std::string secondTwoLetters = res.substr(2, 4);
+		firstStr = inputAnalysis(firstTwoLetters);
+		row = firstStr.first;
+		col = firstStr.second;
+		Location source(row, col);
+		secondStr = inputAnalysis(secondTwoLetters);
+		row = secondStr.first;
+		col = secondStr.second;
+		Location destination(row, col);
 		{ // put your code here instead that code
 			cout << "code response >> ";
 			cin >> codeResponse;
