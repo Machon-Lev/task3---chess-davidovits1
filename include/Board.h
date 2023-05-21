@@ -18,16 +18,22 @@ class Board {
 	bool isBlackChess;
 	Color turn;
 	std::vector<std::vector<Piece*>> board;
+	
+
+	void setMyKingLocation(const Color myColor, Location myKingLocation);
+	void move(const Location sourch, const Location destination);
 
 public:
 	Board();
 	~Board();
 	bool isStepsAvailability(const std::vector<Location> locations,
 		std::vector<std::vector<Piece*>> tempBoard, Location destination);
-	int move(const Location sourch, const Location destination);
+	int tryMove(const Location sourch, const Location destination);
 	Board& operator=(const Board& other);
 	std::vector<std::vector<Piece*>> copyBoard();
 	bool isChess(const std::vector<std::vector<Piece*>> tempBoard, Location locationKing, Color colorKing);
-	Location myKingLocation(Location sourch, Location destination);
+	Location getMyKingLocation(Location sourch, Location destination);
+	Location getOtherKingLocation(const Color otherColor) const;
 	bool isNeedCheckFreeMoovs(const char kind) const;
+	Color getOtherColor(const Color myColor) const;
 };

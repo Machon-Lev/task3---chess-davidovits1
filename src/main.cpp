@@ -34,7 +34,7 @@ int main()
 		location = inputAnalysis(res);
 		source = location.first;
 		destination = location.second;
-		codeResponse = myBoard.move(source, destination);
+		codeResponse = myBoard.tryMove(source, destination);
 
 
 		a.setCodeResponse(codeResponse);

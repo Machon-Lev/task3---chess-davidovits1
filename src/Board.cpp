@@ -50,42 +50,36 @@ bool Board::isStepsAvailability(const std::vector<Location> locations,
 
 }
 
-int Board::move(const Location sourch, const Location destination)
+int Board::tryMove(const Location sourch, const Location destination)
 {
 	std::vector<std::vector<Piece*>> tempBoard = copyBoard();
 	Piece* pieceSourch = tempBoard[sourch.row][sourch.col];
 	Piece* pieceDest = tempBoard[destination.row][destination.col];
+
 	if (pieceSourch == NULL)
-	{
 		return NO_PIECE_IN_SOURCE;
-	}
+	
+
 	Color myColor = pieceSourch->getColor();
-	Location myKing = myKingLocation(sourch, destination);
+
+
 	if (myColor != turn)
-	{
 		return OTHER_PIECE_IN_SOURCE;
-	}
+	
 
-	//if ((isWhiteChess && myColor == Color::white) || (isBlackChess && myColor == Color::black)) 
-	//{
-	//	return CHESS_ON_ME;
-	//}
-
-	else if (!pieceSourch->isLegalMoov(sourch, destination))
-	{
+	if (!pieceSourch->isLegalMoov(sourch, destination))
 		return ILLEGAL_MOVE;
-	}
-
-	std::vector<Location> locations = pieceSourch->allStepsRequired(sourch, destination);
+	
 	
 	char kind = pieceSourch->getKind();
 
 	if (isNeedCheckFreeMoovs(kind))
 	{
+		std::vector<Location> locations = pieceSourch->allStepsRequired(sourch, destination);
+
 		if (!isStepsAvailability(locations, tempBoard, destination))
-		{
 			return ILLEGAL_MOVE;
-		}
+		
 	}
 
 	if (pieceDest != NULL)
@@ -106,56 +100,36 @@ int Board::move(const Location sourch, const Location destination)
 		tempBoard[sourch.row][sourch.col] = NULL;
 	}
 
-	if (myColor == Color::white)
+	Location myKing = getMyKingLocation(sourch, destination);
+	Color otherColor = getOtherColor(myColor);
+	Location otherKing = getOtherKingLocation(otherColor);
+
+	if (isChess(tempBoard, myKing, myColor))
+		return CHESS_ON_ME;
+	
+	isWhiteChess = false;
+	isBlackChess = false;
+
+	move(sourch, destination);
+
+	if (isChess(tempBoard, otherKing, otherColor))
 	{
-		if (isChess(tempBoard, myKing, Color::white))
-		{
-			return CHESS_ON_ME;
-		}
-		isWhiteChess = false;
-		if (isChess(tempBoard, blackKingLocation, Color::black))
-		{
+		if (otherColor == Color::black)
 			isBlackChess = true;
-		}
-		if (board[destination.row][destination.col] != NULL)
-		{
-			delete board[destination.row][destination.col];
-		}
-		board[destination.row][destination.col] = board[sourch.row][sourch.col];
-		board[sourch.row][sourch.col] = NULL;
-		turn = Color::black;
-		whiteKingLocation = myKing;
-		if (isBlackChess)
-		{
-			return CHESS_ON_OTHER;
-		}
-		return LEGAL_MOVE;
-	}
-	else
-	{
-		if (isChess(tempBoard, myKing, Color::black))
-		{
-			return CHESS_ON_ME;
-		}
-		isBlackChess = false;
-		if (isChess(tempBoard, whiteKingLocation, Color::white))
-		{
+		
+		else
 			isWhiteChess = true;
-		}
-		if (board[destination.row][destination.col] != NULL)
-		{
-			delete board[destination.row][destination.col];
-		}
-		board[destination.row][destination.col] = board[sourch.row][sourch.col];
-		board[sourch.row][sourch.col] = NULL;
-		turn = Color::white;
-		blackKingLocation = myKing;
-		if (isWhiteChess)
-		{
-			return CHESS_ON_OTHER;
-		}
-		return LEGAL_MOVE;
+		
 	}
+	
+	turn = otherColor;
+	setMyKingLocation(myColor, myKing);
+
+	if ((myColor == Color::white && isBlackChess) || (myColor == Color::black && isWhiteChess))
+		return CHESS_ON_OTHER;
+
+	return LEGAL_MOVE;
+	
 }
 
 Board& Board::operator=(const Board& other)
@@ -214,7 +188,7 @@ bool Board::isChess(const std::vector<std::vector<Piece*>> tempBoard, Location l
 	return false;
 }
 
-Location Board::myKingLocation(Location sourch, Location destination)
+Location Board::getMyKingLocation(Location sourch, Location destination)
 {
 	if (!board[sourch.row][sourch.col]->isKing())
 	{
@@ -236,4 +210,44 @@ Location Board::myKingLocation(Location sourch, Location destination)
 bool Board::isNeedCheckFreeMoovs(const char kind) const
 {
 	return !(kind == 'k' || kind == 'K' || kind == 'n' || kind == 'N' || kind == 'p' || kind == 'P');
+}
+
+Color Board::getOtherColor(const Color myColor) const
+{
+	if (myColor == Color::black)
+	{
+		return Color::white;
+	}
+	return Color::black;
+}
+
+Location Board::getOtherKingLocation(const Color otherColor) const
+{
+	if (otherColor == Color::black)
+	{
+		return blackKingLocation;
+	}
+	return whiteKingLocation;
+}
+
+void Board::setMyKingLocation(const Color myColor, Location myKingLocation)
+{
+	if (myColor == Color::black)
+	{
+		blackKingLocation = myKingLocation;
+	}
+	else
+	{
+		whiteKingLocation = myKingLocation;
+	}
+}
+
+void Board::move(const Location sourch, const Location destination)
+{
+	if (board[destination.row][destination.col] != NULL)
+	{
+		delete board[destination.row][destination.col];
+	}
+	board[destination.row][destination.col] = board[sourch.row][sourch.col];
+	board[sourch.row][sourch.col] = NULL;
 }
