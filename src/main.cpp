@@ -5,6 +5,7 @@
 
 int main()
 {
+	Board myBoard;
 	string board = "RNBQKBNRPPPPPPPP################################pppppppprnbqkbnr"; 
 //	string board = "##########K###############################R#############r#r#####";
 	Chess a(board);
@@ -33,11 +34,8 @@ int main()
 		location = inputAnalysis(res);
 		source = location.first;
 		destination = location.second;
-		{ // put your code here instead that code
-			cout << "code response >> ";
-			cin >> codeResponse;
-		}
-		/**/
+		codeResponse = myBoard.move(source, destination);
+
 
 		a.setCodeResponse(codeResponse);
 		res = a.getInput(); 
