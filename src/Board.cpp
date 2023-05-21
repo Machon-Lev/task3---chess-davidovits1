@@ -77,11 +77,17 @@ int Board::move(const Location sourch, const Location destination)
 	}
 
 	std::vector<Location> locations = pieceSourch->allStepsRequired(sourch, destination);
-	if (!isStepsAvailability(locations, tempBoard, destination))
-	{
-		return ILLEGAL_MOVE;
-	}
 	
+	char kind = pieceSourch->getKind();
+
+	if (isNeedCheckFreeMoovs(kind))
+	{
+		if (!isStepsAvailability(locations, tempBoard, destination))
+		{
+			return ILLEGAL_MOVE;
+		}
+	}
+
 	if (pieceDest != NULL)
 	{
 		if (pieceSourch->getColor() == pieceDest->getColor())
@@ -99,6 +105,7 @@ int Board::move(const Location sourch, const Location destination)
 		tempBoard[destination.row][destination.col] = tempBoard[sourch.row][sourch.col];
 		tempBoard[sourch.row][sourch.col] = NULL;
 	}
+
 	if (myColor == Color::white)
 	{
 		if (isChess(tempBoard, myKing, Color::white))
@@ -224,4 +231,9 @@ Location Board::myKingLocation(Location sourch, Location destination)
 	{
 		return Location(destination.row, destination.col);
 	}
+}
+
+bool Board::isNeedCheckFreeMoovs(const char kind) const
+{
+	return !(kind == 'k' || kind == 'K' || kind == 'n' || kind == 'N' || kind == 'p' || kind == 'P');
 }
