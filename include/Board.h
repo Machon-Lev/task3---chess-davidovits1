@@ -28,4 +28,5 @@ public:
 	Board& operator=(const Board& other);
 	std::vector<std::vector<Piece*>> copyBoard();
 	bool isChess(const std::vector<std::vector<Piece*>> tempBoard, Location locationKing, Color colorKing);
+	Location myKingLocation(Location sourch, Location destination);
 };

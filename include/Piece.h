@@ -24,4 +24,5 @@ public:
 	bool isCheesOnMyKing(Location locatinOfMyKing);
 	bool isCheesOnOtherKing(Location locatinOfOtherKing);
 	virtual bool isLegalMoov(Location source, Location destination) = 0;
+	virtual bool isKing() { return false; }
 };

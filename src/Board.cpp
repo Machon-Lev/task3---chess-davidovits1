@@ -60,6 +60,7 @@ int Board::move(const Location sourch, const Location destination)
 		return NO_PIECE_IN_SOURCE;
 	}
 	Color myColor = pieceSourch->getColor();
+	Location myKing = myKingLocation(sourch, destination);
 	if (myColor != turn)
 	{
 		return OTHER_PIECE_IN_SOURCE;
@@ -100,7 +101,7 @@ int Board::move(const Location sourch, const Location destination)
 	}
 	if (myColor == Color::white)
 	{
-		if (isChess(tempBoard, whiteKingLocation, Color::white))
+		if (isChess(tempBoard, myKing, Color::white))
 		{
 			return CHESS_ON_ME;
 		}
@@ -116,6 +117,7 @@ int Board::move(const Location sourch, const Location destination)
 		board[destination.row][destination.col] = board[sourch.row][sourch.col];
 		board[sourch.row][sourch.col] = NULL;
 		turn = Color::black;
+		whiteKingLocation = myKing;
 		if (isBlackChess)
 		{
 			return CHESS_ON_OTHER;
@@ -124,7 +126,7 @@ int Board::move(const Location sourch, const Location destination)
 	}
 	else
 	{
-		if (isChess(tempBoard, blackKingLocation, Color::black))
+		if (isChess(tempBoard, myKing, Color::black))
 		{
 			return CHESS_ON_ME;
 		}
@@ -140,6 +142,7 @@ int Board::move(const Location sourch, const Location destination)
 		board[destination.row][destination.col] = board[sourch.row][sourch.col];
 		board[sourch.row][sourch.col] = NULL;
 		turn = Color::white;
+		blackKingLocation = myKing;
 		if (isWhiteChess)
 		{
 			return CHESS_ON_OTHER;
@@ -204,3 +207,21 @@ bool Board::isChess(const std::vector<std::vector<Piece*>> tempBoard, Location l
 	return false;
 }
 
+Location Board::myKingLocation(Location sourch, Location destination)
+{
+	if (!board[sourch.row][sourch.col]->isKing())
+	{
+		if (board[sourch.row][sourch.col]->getColor() == Color::white)
+		{
+			return whiteKingLocation;
+		}
+		else
+		{
+			return blackKingLocation;
+		}
+	}
+	else
+	{
+		return Location(destination.row, destination.col);
+	}
+}
