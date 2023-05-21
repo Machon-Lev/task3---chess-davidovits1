@@ -12,7 +12,7 @@ extern const int LEGAL_MOVE;
 extern const int CHESS_ON_OTHER;
 
 class Board {
-	Location whiteKingLocation = Location(7, 5);
+	Location whiteKingLocation = Location(7, 4);
 	Location blackKingLocation = Location(0, 4);;
 	bool isWhiteChess;
 	bool isBlackChess;
