@@ -28,12 +28,13 @@ public:
 	~Board();
 	bool isStepsAvailability(const std::vector<Location> locations,
 		std::vector<std::vector<Piece*>> tempBoard, Location destination);
-	int tryMove(const Location sourch, const Location destination);
+	int tryMove(const Location source, const Location destination);
 	Board& operator=(const Board& other);
 	std::vector<std::vector<Piece*>> copyBoard();
 	bool isChess(const std::vector<std::vector<Piece*>> tempBoard, Location locationKing, Color colorKing);
-	Location getMyKingLocation(Location sourch, Location destination);
+	Location getMyKingLocation(Location source, Location destination);
 	Location getOtherKingLocation(const Color otherColor) const;
 	bool isNeedCheckFreeMoovs(const char kind) const;
 	Color getOtherColor(const Color myColor) const;
+	bool isLegalLocation(const Location source, const Location destination) const;
 };

@@ -50,57 +50,50 @@ bool Board::isStepsAvailability(const std::vector<Location> locations,
 
 }
 
-int Board::tryMove(const Location sourch, const Location destination)
+int Board::tryMove(const Location source, const Location destination)
 {
+	if (!isLegalLocation(source, destination))
+		return ILLEGAL_MOVE;
+
 	std::vector<std::vector<Piece*>> tempBoard = copyBoard();
-	Piece* pieceSourch = tempBoard[sourch.row][sourch.col];
+	Piece* pieceSource = tempBoard[source.row][source.col];
 	Piece* pieceDest = tempBoard[destination.row][destination.col];
 
-	if (pieceSourch == NULL)
+	if (pieceSource == NULL)
 		return NO_PIECE_IN_SOURCE;
 	
 
-	Color myColor = pieceSourch->getColor();
+	Color myColor = pieceSource->getColor();
 
 
 	if (myColor != turn)
 		return OTHER_PIECE_IN_SOURCE;
 	
 
-	if (!pieceSourch->isLegalMoov(sourch, destination))
+	if (!pieceSource->isLegalMoov(source, destination))
 		return ILLEGAL_MOVE;
 	
 	
-	char kind = pieceSourch->getKind();
+	char kind = pieceSource->getKind();
 
 	if (isNeedCheckFreeMoovs(kind))
 	{
-		std::vector<Location> locations = pieceSourch->allStepsRequired(sourch, destination);
+		std::vector<Location> locations = pieceSource->allStepsRequired(source, destination);
 
 		if (!isStepsAvailability(locations, tempBoard, destination))
 			return ILLEGAL_MOVE;
 		
 	}
-
 	if (pieceDest != NULL)
 	{
-		if (pieceSourch->getColor() == pieceDest->getColor())
-		{
+		if (pieceSource->getColor() == pieceDest->getColor())
 			return MY_PIECE_IN_TARGET;
-		}
-		else
-		{
-			tempBoard[destination.row][destination.col] = tempBoard[sourch.row][sourch.col];
-			tempBoard[sourch.row][sourch.col] = NULL;
-		}
-	}
-	else
-	{
-		tempBoard[destination.row][destination.col] = tempBoard[sourch.row][sourch.col];
-		tempBoard[sourch.row][sourch.col] = NULL;
 	}
 
-	Location myKing = getMyKingLocation(sourch, destination);
+	tempBoard[destination.row][destination.col] = tempBoard[source.row][source.col];
+	tempBoard[source.row][source.col] = NULL;
+	
+	Location myKing = getMyKingLocation(source, destination);
 	Color otherColor = getOtherColor(myColor);
 	Location otherKing = getOtherKingLocation(otherColor);
 
@@ -110,7 +103,7 @@ int Board::tryMove(const Location sourch, const Location destination)
 	isWhiteChess = false;
 	isBlackChess = false;
 
-	move(sourch, destination);
+	move(source, destination);
 
 	if (isChess(tempBoard, otherKing, otherColor))
 	{
@@ -188,11 +181,11 @@ bool Board::isChess(const std::vector<std::vector<Piece*>> tempBoard, Location l
 	return false;
 }
 
-Location Board::getMyKingLocation(Location sourch, Location destination)
+Location Board::getMyKingLocation(Location source, Location destination)
 {
-	if (!board[sourch.row][sourch.col]->isKing())
+	if (!board[source.row][source.col]->isKing())
 	{
-		if (board[sourch.row][sourch.col]->getColor() == Color::white)
+		if (board[source.row][source.col]->getColor() == Color::white)
 		{
 			return whiteKingLocation;
 		}
@@ -242,12 +235,18 @@ void Board::setMyKingLocation(const Color myColor, Location myKingLocation)
 	}
 }
 
-void Board::move(const Location sourch, const Location destination)
+void Board::move(const Location source, const Location destination)
 {
 	if (board[destination.row][destination.col] != NULL)
 	{
 		delete board[destination.row][destination.col];
 	}
-	board[destination.row][destination.col] = board[sourch.row][sourch.col];
-	board[sourch.row][sourch.col] = NULL;
+	board[destination.row][destination.col] = board[source.row][source.col];
+	board[source.row][source.col] = NULL;
+}
+
+bool Board::isLegalLocation(const Location source, const Location destination) const
+{
+	return 0 <= source.row && source.row < 8 && 0 <= source.col && source.col < 8 
+		&& 0 <= destination.row && destination.row < 8 && 0 <= destination.col && destination.col < 8;
 }
