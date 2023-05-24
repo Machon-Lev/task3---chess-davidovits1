@@ -4,4 +4,5 @@
 "Location.cpp"
 "Rook.cpp"
 "Board.cpp"
-"Tools.cpp")
+"Tools.cpp"
+"King.cpp")
