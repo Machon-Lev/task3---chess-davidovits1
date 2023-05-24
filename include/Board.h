@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Rook.h"
+#include "King.h"
 
 extern const int NO_PIECE_IN_SOURCE;
 extern const int OTHER_PIECE_IN_SOURCE;

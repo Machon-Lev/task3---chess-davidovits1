@@ -14,8 +14,10 @@ Board::Board() : board(8, std::vector<Piece*>(8, nullptr)) {
 	isBlackChess = false;
 	turn = Color::white;
 	board[0][0] = new Rook(Color::black, 'R');
+	board[0][4] = new King(Color::black, 'K');
 	board[0][7] = new Rook(Color::black, 'R');
 	board[7][0] = new Rook(Color::white, 'r');
+	board[7][4] = new King(Color::white, 'k');
 	board[7][7] = new Rook(Color::white, 'r');
 
 }
