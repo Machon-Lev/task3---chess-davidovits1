@@ -5,4 +5,6 @@
 "Rook.cpp"
 "Board.cpp"
 "Tools.cpp"
-"King.cpp")
+"King.cpp"
+"Bishop.cpp"
+)
