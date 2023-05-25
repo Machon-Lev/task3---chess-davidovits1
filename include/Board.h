@@ -4,6 +4,7 @@
 #include "King.h"
 #include "Bishop.h"
 #include "Queen.h"
+#include "Knight.h"
 
 extern const int NO_PIECE_IN_SOURCE;
 extern const int OTHER_PIECE_IN_SOURCE;
