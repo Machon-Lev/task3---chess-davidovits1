@@ -8,4 +8,5 @@
 "King.cpp"
 "Bishop.cpp"
 "Queen.cpp"
-"Knight.cpp")
+"Knight.cpp"
+"Pawn.cpp")
