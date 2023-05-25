@@ -1,50 +1,34 @@
 #include "Rook.h"
 #include <algorithm>
 
-std::vector<std::vector<bool>> Rook::legalMoovs(const Location source) {
-	std::vector<std::vector<bool>> board(8, std::vector<bool>(8, false));
-	for (int i = 0; i < 8; i++)
-	{
-		if (i != source.row)
-		{
-			board[source.row][i] = true;
-		}
-		
-		if (i != source.col)
-		{
-			board[i][source.col] = true;
-		}
-	}
-	return board;
-}
 
-std::vector<Location> Rook::allStepsRequired(const Location sourch,const  Location destination) {
+std::vector<Location> Rook::allStepsRequired(const Location source,const  Location destination) {
 	std::vector<Location> stepsRequired;
-	if (sourch.row == destination.row)
+	if (source.row == destination.row)
 	{
-		int maxCol = std::max(sourch.col, destination.col);
-		int minCol = std::min(sourch.col, destination.col);
+		int maxCol = std::max(source.col, destination.col);
+		int minCol = std::min(source.col, destination.col);
 		
 		for (int i = minCol; i <= maxCol; i++)
 		{
-			if (i != sourch.col)
+			if (i != source.col)
 			{
-				Location l(sourch.row, i);
+				Location l(source.row, i);
 				stepsRequired.push_back(l);
 			}
 
 		}
 	}
-	else if (sourch.col == destination.col)
+	else if (source.col == destination.col)
 	{
-		int maxRow = std::max(sourch.row, destination.row);
-		int minRow = std::min(sourch.row, destination.row);
+		int maxRow = std::max(source.row, destination.row);
+		int minRow = std::min(source.row, destination.row);
 
 		for (int i = minRow; i <= maxRow; i++)
 		{
-			if (i != sourch.row)
+			if (i != source.row)
 			{
-				Location l(i, sourch.col);
+				Location l(i, source.col);
 				stepsRequired.push_back(l);
 			}
 
@@ -59,7 +43,7 @@ std::vector<Location> Rook::allStepsRequired(const Location sourch,const  Locati
 	return stepsRequired;
 }
 
-bool Rook::isLegalMoov(Location source, Location destinatio)
+bool Rook::isLegalMove(Location source, Location destinatio)
 {
 	return source.row == destinatio.row || source.col == destinatio.col;
 }

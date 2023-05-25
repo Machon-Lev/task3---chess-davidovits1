@@ -14,10 +14,14 @@ Board::Board() : board(8, std::vector<Piece*>(8, nullptr)) {
 	isBlackChess = false;
 	turn = Color::white;
 	board[0][0] = new Rook(Color::black, 'R');
+	board[0][2] = new Bishop(Color::black, 'B');
 	board[0][4] = new King(Color::black, 'K');
+	board[0][5] = new Bishop(Color::black, 'B');
 	board[0][7] = new Rook(Color::black, 'R');
 	board[7][0] = new Rook(Color::white, 'r');
+	board[7][2] = new Bishop(Color::white, 'b');
 	board[7][4] = new King(Color::white, 'k');
+	board[7][5] = new Bishop(Color::white, 'b');
 	board[7][7] = new Rook(Color::white, 'r');
 
 }
@@ -72,7 +76,7 @@ int Board::tryMove(const Location source, const Location destination)
 		return OTHER_PIECE_IN_SOURCE;
 	
 
-	if (!pieceSource->isLegalMoov(source, destination))
+	if (!pieceSource->isLegalMove(source, destination))
 		return ILLEGAL_MOVE;
 	
 	
@@ -168,7 +172,7 @@ bool Board::isChess(const std::vector<std::vector<Piece*>> tempBoard, Location l
 				if (tempBoard[i][j]->getColor() != colorKing)
 				{
 					Location sourch(i, j);
-					if (tempBoard[i][j]->isLegalMoov(sourch, locationKing))
+					if (tempBoard[i][j]->isLegalMove(sourch, locationKing))
 					{
 						std::vector<Location> locations = tempBoard[i][j]->allStepsRequired(sourch, locationKing);
 						if (isStepsAvailability(locations, tempBoard, locationKing))

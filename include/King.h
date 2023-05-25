@@ -7,8 +7,7 @@ public:
 	King(Color c = Color::white, char k = ' ') : Piece(c, k) {};
 	~King() {};
 
-	std::vector<std::vector<bool>> legalMoovs(const Location source) override;	// maby need to delete
-	std::vector<Location> allStepsRequired(const Location sourch, const  Location destination) override;
-	bool isLegalMoov(Location source, Location destination) override;
+	std::vector<Location> allStepsRequired(const Location source, const  Location destination) override;
+	bool isLegalMove(Location source, Location destination) override;
 	bool isKing() override;
 };

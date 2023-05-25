@@ -19,10 +19,9 @@ public:
 	char getKind() const { return kind; }
 
 	
-	virtual std::vector<std::vector<bool>> legalMoovs(const Location source) = 0;
 	virtual std::vector<Location> allStepsRequired(Location sourch, Location destination) = 0;
 	bool isCheesOnMyKing(Location locatinOfMyKing);
 	bool isCheesOnOtherKing(Location locatinOfOtherKing);
-	virtual bool isLegalMoov(Location source, Location destination) = 0;
+	virtual bool isLegalMove(Location source, Location destination) = 0;
 	virtual bool isKing() { return false; }
 };

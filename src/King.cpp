@@ -1,16 +1,11 @@
 #include "King.h"
 
-std::vector<std::vector<bool>> King::legalMoovs(const Location source)
-{
-	return std::vector<std::vector<bool>>();
-}
-
-std::vector<Location> King::allStepsRequired(const Location sourch, const Location destination)
+std::vector<Location> King::allStepsRequired(const Location source, const Location destination)
 {
 	return std::vector<Location>();
 }
 
-bool King::isLegalMoov(Location source, Location destination)
+bool King::isLegalMove(Location source, Location destination)
 {
 	int sr = source.row;
 	int sc = source.col;
