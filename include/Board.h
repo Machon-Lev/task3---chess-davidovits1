@@ -3,6 +3,7 @@
 #include "Rook.h"
 #include "King.h"
 #include "Bishop.h"
+#include "Queen.h"
 
 extern const int NO_PIECE_IN_SOURCE;
 extern const int OTHER_PIECE_IN_SOURCE;
@@ -14,8 +15,8 @@ extern const int LEGAL_MOVE;
 extern const int CHESS_ON_OTHER;
 
 class Board {
-	Location whiteKingLocation = Location(7, 4);
-	Location blackKingLocation = Location(0, 4);;
+	Location whiteKingLocation = Location(0, 4);
+	Location blackKingLocation = Location(7, 4);;
 	bool isWhiteChess;
 	bool isBlackChess;
 	Color turn;

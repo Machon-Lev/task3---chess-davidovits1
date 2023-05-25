@@ -13,16 +13,19 @@ Board::Board() : board(8, std::vector<Piece*>(8, nullptr)) {
 	isWhiteChess = false;
 	isBlackChess = false;
 	turn = Color::white;
-	board[0][0] = new Rook(Color::black, 'R');
-	board[0][2] = new Bishop(Color::black, 'B');
-	board[0][4] = new King(Color::black, 'K');
-	board[0][5] = new Bishop(Color::black, 'B');
-	board[0][7] = new Rook(Color::black, 'R');
-	board[7][0] = new Rook(Color::white, 'r');
-	board[7][2] = new Bishop(Color::white, 'b');
-	board[7][4] = new King(Color::white, 'k');
-	board[7][5] = new Bishop(Color::white, 'b');
-	board[7][7] = new Rook(Color::white, 'r');
+	board[0][0] = new Rook(Color::white, 'R');
+	board[0][2] = new Bishop(Color::white, 'B');
+	board[0][3] = new Queen(Color::white, 'Q');
+	board[0][4] = new King(Color::white, 'K');
+	board[0][5] = new Bishop(Color::white, 'B');
+	board[0][7] = new Rook(Color::white, 'R');
+
+	board[7][0] = new Rook(Color::black, 'r');
+	board[7][2] = new Bishop(Color::black, 'b');
+	board[7][3] = new Queen(Color::black, 'q');
+	board[7][4] = new King(Color::black, 'k');
+	board[7][5] = new Bishop(Color::black, 'b');
+	board[7][7] = new Rook(Color::black, 'r');
 
 }
 
