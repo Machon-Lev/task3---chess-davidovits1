@@ -23,7 +23,9 @@ Board::~Board() {
 		{
 			delete board[i][j];
 		}
+		board[i].clear();
 	}
+	board.clear();
 }
 
 bool Board::isStepsAvailability(const std::vector<Location> locations,
