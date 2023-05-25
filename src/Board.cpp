@@ -13,20 +13,7 @@ Board::Board() : board(8, std::vector<Piece*>(8, nullptr)) {
 	isWhiteChess = false;
 	isBlackChess = false;
 	turn = Color::white;
-	board[0][0] = new Rook(Color::white, 'R');
-	board[0][2] = new Bishop(Color::white, 'B');
-	board[0][3] = new Queen(Color::white, 'Q');
-	board[0][4] = new King(Color::white, 'K');
-	board[0][5] = new Bishop(Color::white, 'B');
-	board[0][7] = new Rook(Color::white, 'R');
-
-	board[7][0] = new Rook(Color::black, 'r');
-	board[7][2] = new Bishop(Color::black, 'b');
-	board[7][3] = new Queen(Color::black, 'q');
-	board[7][4] = new King(Color::black, 'k');
-	board[7][5] = new Bishop(Color::black, 'b');
-	board[7][7] = new Rook(Color::black, 'r');
-
+	initBoard();
 }
 
 Board::~Board() {
@@ -258,4 +245,21 @@ bool Board::isLegalLocation(const Location source, const Location destination) c
 {
 	return 0 <= source.row && source.row < 8 && 0 <= source.col && source.col < 8 
 		&& 0 <= destination.row && destination.row < 8 && 0 <= destination.col && destination.col < 8;
+}
+
+void Board::initBoard()
+{
+	board[0][0] = new Rook(Color::white, 'R');
+	board[0][2] = new Bishop(Color::white, 'B');
+	board[0][3] = new Queen(Color::white, 'Q');
+	board[0][4] = new King(Color::white, 'K');
+	board[0][5] = new Bishop(Color::white, 'B');
+	board[0][7] = new Rook(Color::white, 'R');
+
+	board[7][0] = new Rook(Color::black, 'r');
+	board[7][2] = new Bishop(Color::black, 'b');
+	board[7][3] = new Queen(Color::black, 'q');
+	board[7][4] = new King(Color::black, 'k');
+	board[7][5] = new Bishop(Color::black, 'b');
+	board[7][7] = new Rook(Color::black, 'r');
 }

@@ -25,6 +25,7 @@ class Board {
 
 	void setMyKingLocation(const Color myColor, Location myKingLocation);
 	void move(const Location sourch, const Location destination);
+	void initBoard();
 
 public:
 	Board();
