@@ -33,12 +33,14 @@ class Board {
 	bool isChess(const std::vector<std::vector<Piece*>> tempBoard, Location locationKing, Color colorKing);
 	Location getMyKingLocation(Location source, Location destination);
 	Location getOtherKingLocation(const Color otherColor) const;
-	bool isNeedCheckFreeMoovs(const char kind) const;
+	bool isNeedCheckFreeMoves(const char kind) const;
 	Color getOtherColor(const Color myColor) const;
 	bool isLegalLocation(const Location source, const Location destination) const;
 	bool isStepsAvailability(const std::vector<Location> locations,
 		std::vector<std::vector<Piece*>> tempBoard, Location destination);
 	bool isValidForPawn(const Location source, const Location destination);
+	void setIsFirstStepForPawn(Location source);
+	bool isPawn(char kind);
 
 public:
 	Board();

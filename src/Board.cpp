@@ -72,7 +72,13 @@ int Board::tryMove(const Location source, const Location destination)
 	
 	char kind = pieceSource->getKind();
 
-	if (isNeedCheckFreeMoovs(kind))
+	if (isPawn(kind))
+	{
+		if (!isValidForPawn(source, destination))
+			return ILLEGAL_MOVE;
+	}
+
+	if (isNeedCheckFreeMoves(kind))
 	{
 		std::vector<Location> locations = pieceSource->allStepsRequired(source, destination);
 
@@ -85,11 +91,7 @@ int Board::tryMove(const Location source, const Location destination)
 		if (pieceSource->getColor() == pieceDest->getColor())
 			return MY_PIECE_IN_TARGET;
 	}
-	if (kind == 'p' || kind == 'P')
-	{
-		if (!isValidForPawn(source, destination))
-			return ILLEGAL_MOVE;
-	}
+
 
 	tempBoard[destination.row][destination.col] = tempBoard[source.row][source.col];
 	tempBoard[source.row][source.col] = NULL;
@@ -103,6 +105,9 @@ int Board::tryMove(const Location source, const Location destination)
 	
 	isWhiteChess = false;
 	isBlackChess = false;
+
+	if (isPawn(kind))
+		setIsFirstStepForPawn(source);
 
 	move(source, destination);
 
@@ -201,9 +206,9 @@ Location Board::getMyKingLocation(Location source, Location destination)
 	}
 }
 
-bool Board::isNeedCheckFreeMoovs(const char kind) const
+bool Board::isNeedCheckFreeMoves(const char kind) const
 {
-	return !(kind == 'k' || kind == 'K' || kind == 'n' || kind == 'N' || kind == 'p' || kind == 'P');
+	return !(kind == 'k' || kind == 'K' || kind == 'n' || kind == 'N');
 }
 
 Color Board::getOtherColor(const Color myColor) const
@@ -293,7 +298,18 @@ void Board::initBoard()
 
 bool Board::isValidForPawn(const Location source, const Location destination)
 {
-	if (board[destination.row][destination.col] == NULL)
+	Pawn* pawn = dynamic_cast<Pawn*>(board[source.row][source.col]);
+
+	int distanceRow = abs(source.row - destination.row);
+	if (distanceRow == 2)
+	{
+		if (pawn->getIsFirstStep())
+			return true;
+		else
+			return false;
+	}
+
+	else if (board[destination.row][destination.col] == NULL)
 	{
 		if (destination.col == source.col)
 			return true;
@@ -303,4 +319,15 @@ bool Board::isValidForPawn(const Location source, const Location destination)
 		return true;
 
 	return false;
+}
+
+void Board::setIsFirstStepForPawn(Location source)
+{
+	Pawn* pawn = dynamic_cast<Pawn*>(board[source.row][source.col]);
+	pawn->setIsFIrstStep();
+}
+
+bool Board::isPawn(char kind)
+{
+	return kind == 'p' || kind == 'P';
 }
