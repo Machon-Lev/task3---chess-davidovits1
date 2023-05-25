@@ -1,8 +1,4 @@
 #include "Bishop.h"
-std::vector<std::vector<bool>> Bishop::legalMoovs(const Location source)
-{
-	return std::vector<std::vector<bool>>();
-}
 
 std::vector<Location> Bishop::allStepsRequired(const Location source, const Location destination)
 {

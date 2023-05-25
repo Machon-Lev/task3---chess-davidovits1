@@ -43,7 +43,7 @@ std::vector<Location> Rook::allStepsRequired(const Location source,const  Locati
 	return stepsRequired;
 }
 
-bool Rook::isLegalMove(Location source, Location destinatio)
+bool Rook::isLegalMove(Location source, Location destination)
 {
-	return source.row == destinatio.row || source.col == destinatio.col;
+	return source.row == destination.row || source.col == destination.col;
 }
