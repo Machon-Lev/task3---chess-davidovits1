@@ -7,4 +7,5 @@
 "Tools.cpp"
 "King.cpp"
 "Bishop.cpp"
-"Queen.cpp")
+"Queen.cpp"
+"Knight.cpp")
