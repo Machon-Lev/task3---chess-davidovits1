@@ -85,6 +85,11 @@ int Board::tryMove(const Location source, const Location destination)
 		if (pieceSource->getColor() == pieceDest->getColor())
 			return MY_PIECE_IN_TARGET;
 	}
+	if (kind == 'p' || kind == 'P')
+	{
+		if (!isValidForPawn(source, destination))
+			return ILLEGAL_MOVE;
+	}
 
 	tempBoard[destination.row][destination.col] = tempBoard[source.row][source.col];
 	tempBoard[source.row][source.col] = NULL;
@@ -258,6 +263,15 @@ void Board::initBoard()
 	board[0][6] = new Knight(Color::white, 'N');
 	board[0][7] = new Rook(Color::white, 'R');
 
+	board[1][0] = new Pawn(Color::white, 'P');
+	board[1][1] = new Pawn(Color::white, 'P');
+	board[1][2] = new Pawn(Color::white, 'P');
+	board[1][3] = new Pawn(Color::white, 'P');
+	board[1][4] = new Pawn(Color::white, 'P');
+	board[1][5] = new Pawn(Color::white, 'P');
+	board[1][6] = new Pawn(Color::white, 'P');
+	board[1][7] = new Pawn(Color::white, 'P');
+
 	board[7][0] = new Rook(Color::black, 'r');
 	board[7][1] = new Knight(Color::black, 'n');
 	board[7][2] = new Bishop(Color::black, 'b');
@@ -266,4 +280,27 @@ void Board::initBoard()
 	board[7][5] = new Bishop(Color::black, 'b');
 	board[7][6] = new Knight(Color::black, 'n');
 	board[7][7] = new Rook(Color::black, 'r');
+
+	board[6][0] = new Pawn(Color::black, 'p');
+	board[6][1] = new Pawn(Color::black, 'p');
+	board[6][2] = new Pawn(Color::black, 'p');
+	board[6][3] = new Pawn(Color::black, 'p');
+	board[6][4] = new Pawn(Color::black, 'p');
+	board[6][5] = new Pawn(Color::black, 'p');
+	board[6][6] = new Pawn(Color::black, 'p');
+	board[6][7] = new Pawn(Color::black, 'p');
+}
+
+bool Board::isValidForPawn(const Location source, const Location destination)
+{
+	if (board[destination.row][destination.col] == NULL)
+	{
+		if (destination.col == source.col)
+			return true;
+	}
+
+	else if (destination.col != source.col)
+		return true;
+
+	return false;
 }

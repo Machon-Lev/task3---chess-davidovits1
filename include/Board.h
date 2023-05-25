@@ -5,6 +5,7 @@
 #include "Bishop.h"
 #include "Queen.h"
 #include "Knight.h"
+#include "Pawn.h"
 
 extern const int NO_PIECE_IN_SOURCE;
 extern const int OTHER_PIECE_IN_SOURCE;
@@ -27,13 +28,6 @@ class Board {
 	void setMyKingLocation(const Color myColor, Location myKingLocation);
 	void move(const Location sourch, const Location destination);
 	void initBoard();
-
-public:
-	Board();
-	~Board();
-	bool isStepsAvailability(const std::vector<Location> locations,
-		std::vector<std::vector<Piece*>> tempBoard, Location destination);
-	int tryMove(const Location source, const Location destination);
 	Board& operator=(const Board& other);
 	std::vector<std::vector<Piece*>> copyBoard();
 	bool isChess(const std::vector<std::vector<Piece*>> tempBoard, Location locationKing, Color colorKing);
@@ -42,4 +36,14 @@ public:
 	bool isNeedCheckFreeMoovs(const char kind) const;
 	Color getOtherColor(const Color myColor) const;
 	bool isLegalLocation(const Location source, const Location destination) const;
+	bool isStepsAvailability(const std::vector<Location> locations,
+		std::vector<std::vector<Piece*>> tempBoard, Location destination);
+	bool isValidForPawn(const Location source, const Location destination);
+
+public:
+	Board();
+	~Board();
+
+	int tryMove(const Location source, const Location destination);
+
 };
