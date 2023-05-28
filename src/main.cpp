@@ -1,13 +1,18 @@
 // Chess 
 #include "Chess.h"
+#include "Tools.h"
+#include "Board.h"
 
 int main()
 {
+	Board myBoard;
 	string board = "RNBQKBNRPPPPPPPP################################pppppppprnbqkbnr"; 
 //	string board = "##########K###############################R#############r#r#####";
 	Chess a(board);
 	int codeResponse = 0;
 	string res = a.getInput();
+	std::pair<Location, Location> location;
+	Location source, destination;
 	while (res != "exit")
 	{
 		/* 
@@ -25,11 +30,12 @@ int main()
 		*/
 
 		/**/ 
-		{ // put your code here instead that code
-			cout << "code response >> ";
-			cin >> codeResponse;
-		}
-		/**/
+
+		location = inputAnalysis(res);
+		source = location.first;
+		destination = location.second;
+		codeResponse = myBoard.tryMove(source, destination);
+
 
 		a.setCodeResponse(codeResponse);
 		res = a.getInput(); 
