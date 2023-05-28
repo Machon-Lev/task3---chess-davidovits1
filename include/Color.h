@@ -1,5 +1,7 @@
 #pragma once
-// color of pieces in chess
+/// <summary>
+/// color of pieces in chess
+/// </summary>
 enum class Color
 {
 	white, black

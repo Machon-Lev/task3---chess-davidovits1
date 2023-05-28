@@ -2,6 +2,7 @@
 
 std::vector<Location> Pawn::allStepsRequired(const Location source, const Location destination)
 {
+	//Case 2 steps down
 	if (destination.row - source.row == 2)
 	{
 		std::vector<Location> stepsRequired;
@@ -10,6 +11,7 @@ std::vector<Location> Pawn::allStepsRequired(const Location source, const Locati
 		return stepsRequired;
 	}
 
+	//Case 2 steps up
 	if (source.row - destination.row == 2)
 	{
 		std::vector<Location> stepsRequired;
@@ -18,6 +20,7 @@ std::vector<Location> Pawn::allStepsRequired(const Location source, const Locati
 		return stepsRequired;
 	}
 
+	//Case 1 step
 	return std::vector<Location>();
 }
 

@@ -10,8 +10,6 @@ const int LEGAL_MOVE = 42;
 
 
 Board::Board() : board(8, std::vector<Piece*>(8, nullptr)) {
-	isWhiteChess = false;
-	isBlackChess = false;
 	turn = Color::white;
 	initBoard();
 }
@@ -38,9 +36,7 @@ bool Board::isStepsAvailability(const std::vector<Location> locations,
 			row = locations[i].row;
 			col = locations[i].col;
 			if (tempBoard[row][col] != NULL)
-			{
 				return false;
-			}
 		}
 
 	}
@@ -50,24 +46,25 @@ bool Board::isStepsAvailability(const std::vector<Location> locations,
 
 int Board::tryMove(const Location source, const Location destination)
 {
-	if (!isLegalLocation(source, destination))
+	//outside the boundaries of the board
+	if (!isValidLocation(source, destination))
 		return ILLEGAL_MOVE;
 
 	std::vector<std::vector<Piece*>> tempBoard = copyBoard();
 	Piece* pieceSource = tempBoard[source.row][source.col];
 	Piece* pieceDest = tempBoard[destination.row][destination.col];
-
+	
 	if (pieceSource == NULL)
 		return NO_PIECE_IN_SOURCE;
 	
 
 	Color myColor = pieceSource->getColor();
 
-
+	//Attempting to make a move out of your turn
 	if (myColor != turn)
 		return OTHER_PIECE_IN_SOURCE;
 	
-
+	//Illegal move
 	if (!pieceSource->isLegalMove(source, destination))
 		return ILLEGAL_MOVE;
 	
@@ -90,6 +87,7 @@ int Board::tryMove(const Location source, const Location destination)
 	}
 	if (pieceDest != NULL)
 	{
+		//The destination is not available
 		if (pieceSource->getColor() == pieceDest->getColor())
 			return MY_PIECE_IN_TARGET;
 	}
@@ -102,11 +100,11 @@ int Board::tryMove(const Location source, const Location destination)
 	Color otherColor = getOtherColor(myColor);
 	Location otherKing = getOtherKingLocation(otherColor);
 
+	//The move will cause chess on the player
 	if (isChess(tempBoard, myKing, myColor))
 		return CHESS_ON_ME;
 	
-	isWhiteChess = false;
-	isBlackChess = false;
+	bool isOtherChess = false;
 
 	if (isPawn(kind))
 		setIsFirstStepForPawn(source);
@@ -114,41 +112,19 @@ int Board::tryMove(const Location source, const Location destination)
 	move(source, destination);
 
 	if (isChess(tempBoard, otherKing, otherColor))
-	{
-		if (otherColor == Color::black)
-			isBlackChess = true;
-		
-		else
-			isWhiteChess = true;
-		
-	}
+		isOtherChess = true;
 	
 	turn = otherColor;
 	setMyKingLocation(myColor, myKing);
 
-	if ((myColor == Color::white && isBlackChess) || (myColor == Color::black && isWhiteChess))
+	//Chess on the opponent
+	if (isOtherChess)
 		return CHESS_ON_OTHER;
 
 	return LEGAL_MOVE;
 	
 }
 
-Board& Board::operator=(const Board& other)
-{
-	whiteKingLocation = other.whiteKingLocation;
-	blackKingLocation = other.blackKingLocation;
-	isWhiteChess = other.isWhiteChess;
-	isBlackChess = other.isBlackChess;
-	turn = other.turn;
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			board[i][j] = other.board[i][j];
-		}
-	}
-	return *this;
-}
 
 std::vector<std::vector<Piece*>> Board::copyBoard()
 {
@@ -202,6 +178,8 @@ Location Board::getMyKingLocation(Location source, Location destination)
 			return blackKingLocation;
 		}
 	}
+
+	//A case of moving the king
 	else
 	{
 		return Location(destination.row, destination.col);
@@ -234,13 +212,11 @@ Location Board::getOtherKingLocation(const Color otherColor) const
 void Board::setMyKingLocation(const Color myColor, Location myKingLocation)
 {
 	if (myColor == Color::black)
-	{
 		blackKingLocation = myKingLocation;
-	}
+	
 	else
-	{
 		whiteKingLocation = myKingLocation;
-	}
+	
 }
 
 void Board::move(const Location source, const Location destination)
@@ -253,7 +229,7 @@ void Board::move(const Location source, const Location destination)
 	board[source.row][source.col] = NULL;
 }
 
-bool Board::isLegalLocation(const Location source, const Location destination) const
+bool Board::isValidLocation(const Location source, const Location destination) const
 {
 	return 0 <= source.row && source.row < 8 && 0 <= source.col && source.col < 8 
 		&& 0 <= destination.row && destination.row < 8 && 0 <= destination.col && destination.col < 8;
@@ -303,6 +279,7 @@ bool Board::isValidForPawn(const Location source, const Location destination)
 	Pawn* pawn = dynamic_cast<Pawn*>(board[source.row][source.col]);
 
 	int distanceRow = abs(source.row - destination.row);
+	//Attempt to move 2 steps
 	if (distanceRow == 2)
 	{
 		if (pawn->getIsFirstStep())
@@ -313,10 +290,12 @@ bool Board::isValidForPawn(const Location source, const Location destination)
 
 	else if (board[destination.row][destination.col] == NULL)
 	{
+		//Trying to move one step straight
 		if (destination.col == source.col)
 			return true;
 	}
 
+	//Attempting to move one step diagonally to eat
 	else if (destination.col != source.col)
 		return true;
 

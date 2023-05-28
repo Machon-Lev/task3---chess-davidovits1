@@ -4,6 +4,8 @@
 
 std::vector<Location> Rook::allStepsRequired(const Location source,const  Location destination) {
 	std::vector<Location> stepsRequired;
+
+	//Case left or right
 	if (source.row == destination.row)
 	{
 		int maxCol = std::max(source.col, destination.col);
@@ -19,6 +21,7 @@ std::vector<Location> Rook::allStepsRequired(const Location source,const  Locati
 
 		}
 	}
+	//Case up or down
 	else if (source.col == destination.col)
 	{
 		int maxRow = std::max(source.row, destination.row);
